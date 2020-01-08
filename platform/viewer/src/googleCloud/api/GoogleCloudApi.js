@@ -15,7 +15,7 @@ class GoogleCloudApi {
   }
 
   get urlBase() {
-    return `https://healthcare.googleapis.com/v1beta1`;
+    return `http://localhost:3099/api/healthcare/v1/v1beta1`;
   }
 
   get urlBaseProject() {
