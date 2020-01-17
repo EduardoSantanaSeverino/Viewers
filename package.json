@@ -35,7 +35,8 @@
     "lerna:version": "npx lerna version prerelease --force-publish",
     "lerna:publish": "lerna publish from-package --canary --dist-tag canary",
     "link-list": "npm ls --depth=0 --link=true",
-    "start-axon": "APP_CONFIG=config/axon.js yarn run dev"
+    "start-axon": "APP_CONFIG=config/axon.js yarn run dev",
+    "start-dicom-server": "APP_CONFIG=config/local_dicom_server.js yarn run dev"
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
