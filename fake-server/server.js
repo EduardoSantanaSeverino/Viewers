@@ -18,13 +18,6 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-var array1 = [
-  {
-    urlPrefix: '/dicom-web',
-    forwardTo: 'https://healthcare.googleapis.com', // "https://healthcare.googleapis.com/v1beta1"
-  },
-];
-
 function getParentUrlFromUserId(userId) {
   // some logic to get parent url from userId
   let parent =
@@ -41,29 +34,30 @@ function getParentUrlFromUserId(userId) {
     .replace('LOCATION', item.location)
     .replace('DATASET_ID', item.datasetId)
     .replace('DICOM_STORE_ID', item.dicomStoreId);
-  console.log(retVal);
+
   return retVal;
 }
 
-array1.forEach(element => {
-  app.use(
-    element.urlPrefix + '*',
-    proxy(element.forwardTo, {
-      proxyReqPathResolver: req => {
-        let _forwardPath =
-          '/' +
-          getParentUrlFromUserId(1) +
-          req.baseUrl.replace(element.urlPrefix, '');
+const urlPrefixProxy = '/dicom-web';
+const forwardToProxy = 'https://healthcare.googleapis.com'; // "https://healthcare.googleapis.com/v1beta1"
 
-        return url.parse(_forwardPath).path;
-      },
-      proxyReqOptDecorator: function(proxyReqOpts, srcReq) {
-        proxyReqOpts.headers['Authorization'] = currentLocalToken;
-        return proxyReqOpts;
-      },
-    })
-  );
-});
+app.use(
+  urlPrefixProxy + '*',
+  proxy(forwardToProxy, {
+    proxyReqPathResolver: req => {
+      let _forwardPath =
+        '/' +
+        getParentUrlFromUserId(1) +
+        req.baseUrl.replace(urlPrefixProxy, '');
+
+      return url.parse(_forwardPath).path;
+    },
+    proxyReqOptDecorator: function(proxyReqOpts, srcReq) {
+      proxyReqOpts.headers['Authorization'] = currentLocalToken;
+      return proxyReqOpts;
+    },
+  })
+);
 
 gtoken.getToken((err, tokens) => {
   if (err) {
