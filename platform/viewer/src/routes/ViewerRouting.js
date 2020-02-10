@@ -29,7 +29,10 @@ function ViewerRouting({ match: routeMatch, location: routeLocation }) {
   } = routeMatch.params;
   const server = useServer({ project, location, dataset, dicomStore });
 
-  const studyUids = UrlUtil.paramString.parseParam(studyInstanceUids);
+  const studyUids = server.studyInstanceUids
+    ? [server.studyInstanceUids]
+    : UrlUtil.paramString.parseParam(studyInstanceUids);
+
   const seriesUids = getSeriesInstanceUIDs(seriesInstanceUids, routeLocation);
 
   if (server && studyUids) {
@@ -47,7 +50,7 @@ function ViewerRouting({ match: routeMatch, location: routeLocation }) {
 ViewerRouting.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      studyInstanceUids: PropTypes.string.isRequired,
+      studyInstanceUids: PropTypes.string,
       seriesInstanceUids: PropTypes.string,
       dataset: PropTypes.string,
       dicomStore: PropTypes.string,

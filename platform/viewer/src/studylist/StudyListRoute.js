@@ -113,7 +113,8 @@ function StudyListRoute(props) {
       pageNumber,
       displaySize,
       server,
-    ]);
+    ]
+  );
 
   // TODO: Update Server
   // if (this.props.server !== prevProps.server) {
