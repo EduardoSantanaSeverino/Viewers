@@ -29,8 +29,8 @@
   },
   "peerDependencies": {
     "@ohif/core": "^0.50.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
