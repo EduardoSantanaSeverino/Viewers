@@ -1,10 +1,10 @@
 import CommandsManager from './CommandsManager.js';
 import HotkeysManager from './HotkeysManager.js';
-import hotkeys from './hotkeys';
+import hotkeys from './../utils/hotkeys';
 import log from './../log.js';
 
 jest.mock('./CommandsManager.js');
-jest.mock('./hotkeys');
+jest.mock('./../utils/hotkeys');
 jest.mock('./../log.js');
 
 describe('HotkeysManager', () => {
@@ -60,7 +60,10 @@ describe('HotkeysManager', () => {
   });
 
   describe('enable()', () => {
-    beforeEach(() => hotkeys.unpause.mockClear());
+    beforeEach(() => {
+      hotkeys.unpause = jest.fn();
+      hotkeys.unpause.mockClear();
+    });
 
     it('sets isEnabled property to true', () => {
       hotkeysManager.disable();
@@ -94,18 +97,20 @@ describe('HotkeysManager', () => {
       expect(firstCallArgs).toEqual(hotkeyDefinitions[0]);
       expect(secondCallArgs).toEqual(hotkeyDefinitions[1]);
     });
-    it('does not set this.hotkeyDefaults by default', () => {
+    it('does not set this.hotkeyDefaults when calling setHotKeys', () => {
       const hotkeyDefinitions = [{ commandName: 'dance', keys: '+' }];
 
       hotkeysManager.setHotkeys(hotkeyDefinitions);
 
       expect(hotkeysManager.hotkeyDefaults).toEqual([]);
     });
-    it('sets this.hotkeyDefaults when isDefaultDefinitions is true', () => {
-      const hotkeyDefinitions = [{ commandName: 'dance', keys: '+' }];
-      const isDefaultDefinitions = true;
+  });
 
-      hotkeysManager.setHotkeys(hotkeyDefinitions, isDefaultDefinitions);
+  describe('setDefaultHotKeys()', () => {
+    it('it sets default hotkeys', () => {
+      const hotkeyDefinitions = [{ commandName: 'dance', keys: '+' }];
+
+      hotkeysManager.setDefaultHotKeys(hotkeyDefinitions);
 
       expect(hotkeysManager.hotkeyDefaults).toEqual(hotkeyDefinitions);
     });
@@ -137,20 +142,18 @@ describe('HotkeysManager', () => {
         expectedHotkeyDefinition
       );
     });
-    it('calls hotkeys.bind for all keys in array', () => {
-      const definition = { commandName: 'dance', keys: ['h', 'e', 'l', 'o'] };
+    it('calls hotkeys.bind for the group of keys', () => {
+      const definition = { commandName: 'dance', keys: ['shift', 'e'] };
 
       hotkeysManager.registerHotkeys(definition);
 
-      expect(hotkeys.bind.mock.calls.length).toBe(definition.keys.length);
-      definition.keys.forEach((key, i) =>
-        expect(hotkeys.bind.mock.calls[i][0]).toBe(key)
-      );
+      expect(hotkeys.bind.mock.calls.length).toBe(1);
+      expect(hotkeys.bind.mock.calls[0][0]).toBe('shift+e');
     });
     it('calls hotkeys.unbind if commandName was previously registered, for each previously registered set of keys', () => {
       const firstDefinition = {
         commandName: 'dance',
-        keys: ['h', 'e', 'l', 'o'],
+        keys: ['alt', 'e'],
       };
       const secondDefinition = { commandName: 'dance', keys: 'a' };
 
@@ -159,12 +162,8 @@ describe('HotkeysManager', () => {
       // Second call
       hotkeysManager.registerHotkeys(secondDefinition);
 
-      expect(hotkeys.unbind.mock.calls.length).toBe(
-        firstDefinition.keys.length
-      );
-      firstDefinition.keys.forEach((key, i) =>
-        expect(hotkeys.unbind.mock.calls[i][0]).toBe(key)
-      );
+      expect(hotkeys.unbind.mock.calls.length).toBe(1);
+      expect(hotkeys.unbind.mock.calls[0][0]).toBe('alt+e');
     });
   });
 

@@ -15,7 +15,13 @@ class GoogleCloudApi {
   }
 
   get urlBase() {
-    return `http://localhost:3099/api/healthcare/v1/v1beta1`;
+    return (
+      this.healthcareApiEndpoint || 'https://healthcare.googleapis.com/v1beta1'
+    );
+  }
+
+  set urlBase(url) {
+    this.healthcareApiEndpoint = url;
   }
 
   get urlBaseProject() {

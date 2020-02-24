@@ -3,11 +3,10 @@ import { LayoutButton, LayoutChooser } from './layoutButton';
 import { MeasurementTable, MeasurementTableItem } from './measurementTable';
 import { Overlay, OverlayTrigger } from './overlayTrigger';
 import { TableList, TableListItem } from './tableList';
-import {
-  AboutContent,
-  UserPreferences,
-  UserPreferencesModal,
-} from './userPreferencesModal';
+import { AboutContent } from './content/aboutContent/AboutContent';
+import { TabComponents, TabFooter } from './tabComponents';
+import { HotkeyField } from './customForm';
+import { LanguageSwitcher } from './languageSwitcher';
 
 import { Checkbox } from './checkbox';
 import { CineDialog } from './cineDialog';
@@ -17,6 +16,7 @@ import { RoundedButtonGroup } from './roundedButtonGroup';
 import { SelectTree } from './selectTree';
 import { SimpleDialog } from './simpleDialog';
 import { OHIFModal } from './ohifModal';
+import { ContextMenu } from './contextMenu';
 import {
   PageToolbar,
   StudyList,
@@ -27,6 +27,7 @@ import { ToolbarSection } from './toolbarSection';
 import { Tooltip } from './tooltip';
 
 export {
+  ContextMenu,
   Checkbox,
   CineDialog,
   ViewportDownloadForm,
@@ -46,12 +47,14 @@ export {
   TableList,
   TableListItem,
   Thumbnail,
+  TabComponents,
+  TabFooter,
+  HotkeyField,
+  LanguageSwitcher,
   TableSearchFilter,
   TablePagination,
   ToolbarSection,
   Tooltip,
   AboutContent,
-  UserPreferences,
-  UserPreferencesModal,
   OHIFModal,
 };

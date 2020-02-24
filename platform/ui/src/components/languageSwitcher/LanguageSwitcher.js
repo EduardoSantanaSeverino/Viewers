@@ -1,66 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import i18n from '@ohif/i18n';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import './LanguageSwitcher.styl';
-import { withTranslation } from '../../utils/LanguageProvider';
 
-const LanguageSwitcher = () => {
-  const getCurrentLanguage = (language = i18n.language) =>
-    language.split('-')[0];
-
-  const [currentLanguage, setCurrentLanguage] = useState(getCurrentLanguage());
-  const languages = [
-    // TODO: list of available languages should come from i18n.options.resources
-    {
-      value: 'en',
-      label: 'English',
-    },
-    {
-      value: 'es',
-      label: 'Spanish',
-    },
-  ];
-
-  const onChange = () => {
+const LanguageSwitcher = ({ language, onLanguageChange, languages }) => {
+  const onChange = event => {
     const { value } = event.target;
-    const language = getCurrentLanguage(value);
-    setCurrentLanguage(language);
-
-    i18n.init({
-      fallbackLng: language,
-      lng: language,
-    });
+    onLanguageChange(value);
   };
-
-  useEffect(() => {
-    let mounted = true;
-
-    i18n.on('languageChanged', () => {
-      if (mounted) {
-        setCurrentLanguage(getCurrentLanguage());
-      }
-    });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   return (
     <select
       name="language-select"
       id="language-select"
       className="language-select"
-      value={currentLanguage}
+      value={language}
       onChange={onChange}
     >
-      {languages.map(language => (
-        <option key={language.value} value={language.value}>
-          {language.label}
+      {languages.map(lng => (
+        <option key={lng.value} value={lng.value}>
+          {lng.label}
         </option>
       ))}
     </select>
   );
 };
 
-export default withTranslation('UserPreferencesModal')(LanguageSwitcher);
+LanguageSwitcher.propTypes = {
+  language: PropTypes.string.isRequired,
+  languages: PropTypes.array.isRequired,
+  onLanguageChange: PropTypes.func.isRequired,
+};
+
+export { LanguageSwitcher };

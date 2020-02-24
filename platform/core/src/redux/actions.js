@@ -10,15 +10,28 @@ import {
   SET_VIEWPORT_ACTIVE,
   SET_VIEWPORT_LAYOUT,
   SET_VIEWPORT_LAYOUT_AND_DATA,
+  SET_USER_PREFERENCES,
 } from './constants/ActionTypes.js';
+
+/**
+ * The definition of a viewport layout.
+ *
+ * @typedef {Object} ViewportLayout
+ * @property {number} numRows -
+ * @property {number} numColumns -
+ * @property {array} viewports -
+ */
 
 /**
  * VIEWPORT
  */
-export const setViewportSpecificData = (viewportIndex, data) => ({
+export const setViewportSpecificData = (
+  viewportIndex,
+  viewportSpecificData
+) => ({
   type: SET_VIEWPORT,
   viewportIndex,
-  data,
+  viewportSpecificData,
 });
 
 export const setViewportActive = viewportIndex => ({
@@ -27,10 +40,7 @@ export const setViewportActive = viewportIndex => ({
 });
 
 /**
- * @param {object} layout
- * @param {number} layout.numRows
- * @param {number} layout.numColumns
- * @param {array} layout.viewports
+ * @param {ViewportLayout} layout
  */
 export const setLayout = ({ numRows, numColumns, viewports }) => ({
   type: SET_VIEWPORT_LAYOUT,
@@ -40,10 +50,9 @@ export const setLayout = ({ numRows, numColumns, viewports }) => ({
 });
 
 /**
- * @param {object} layout
  * @param {number} layout.numRows
  * @param {number} layout.numColumns
- * @param {array} layout.viewports
+ * @param {array} viewports
  */
 export const setViewportLayoutAndData = (
   { numRows, numColumns, viewports },
@@ -61,9 +70,9 @@ export const clearViewportSpecificData = viewportIndex => ({
   viewportIndex,
 });
 
-export const setActiveViewportSpecificData = data => ({
+export const setActiveViewportSpecificData = viewportSpecificData => ({
   type: SET_ACTIVE_SPECIFIC_DATA,
-  data,
+  viewportSpecificData,
 });
 
 /**
@@ -81,7 +90,7 @@ export const clearStudyLoadingProgress = progressId => ({
 });
 
 export const setUserPreferences = state => ({
-  type: 'SET_USER_PREFERENCES',
+  type: SET_USER_PREFERENCES,
   state,
 });
 
@@ -113,13 +122,18 @@ export const setServers = servers => ({
 });
 
 const actions = {
-  // VIEWPORT
+  /**
+   * VIEWPORT
+   */
   setViewportActive,
   setViewportSpecificData,
   setViewportLayoutAndData,
   setLayout,
   clearViewportSpecificData,
   setActiveViewportSpecificData,
+  /**
+   * NOT-VIEWPORT
+   */
   setStudyLoadingProgress,
   clearStudyLoadingProgress,
   setUserPreferences,

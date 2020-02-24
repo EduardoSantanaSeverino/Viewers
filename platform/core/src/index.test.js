@@ -8,8 +8,15 @@ describe('Top level exports', () => {
       'CommandsManager',
       'ExtensionManager',
       'HotkeysManager',
+      'ServicesManager',
+      //
+      'UINotificationService',
+      'UIModalService',
+      'UIDialogService',
+      'MeasurementService',
       //
       'utils',
+      'hotkeys',
       'studies',
       'redux',
       'classes',
@@ -23,6 +30,7 @@ describe('Top level exports', () => {
       'object',
       'log',
       'DICOMWeb',
+      'DICOMSR',
       'OHIF', //
       'measurements',
       'hangingProtocols',

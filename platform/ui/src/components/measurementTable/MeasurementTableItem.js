@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from '../../utils/LanguageProvider';
+import { withTranslation } from '../../contextProviders';
 
 import { Icon } from './../../elements/Icon';
 import { OverlayTrigger } from './../overlayTrigger';
@@ -44,8 +44,8 @@ class MeasurementTableItem extends Component {
             <div>{this.getTableListItem()}</div>
           </OverlayTrigger>
         ) : (
-          <React.Fragment>{this.getTableListItem()}</React.Fragment>
-        )}
+            <React.Fragment>{this.getTableListItem()}</React.Fragment>
+          )}
       </React.Fragment>
     );
   }
@@ -101,7 +101,7 @@ class MeasurementTableItem extends Component {
               nsSeparator: '|',
             })}
           </div>
-          <div>{this.getDataDisplayText()}</div>
+          <div className="displayTexts">{this.getDataDisplayText()}</div>
           <div className="rowActions">{actionButtons}</div>
         </div>
       </TableListItem>

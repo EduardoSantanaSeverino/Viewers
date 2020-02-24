@@ -1,9 +1,11 @@
 import './lib';
 
 import { ExtensionManager, MODULE_TYPES } from './extensions';
+import { ServicesManager } from './services';
 import classes, { CommandsManager, HotkeysManager } from './classes/';
 
 import DICOMWeb from './DICOMWeb';
+import DICOMSR from './DICOMSR';
 import cornerstone from './cornerstone.js';
 import hangingProtocols from './hanging-protocols';
 import header from './header.js';
@@ -16,7 +18,14 @@ import string from './string.js';
 import studies from './studies/';
 import ui from './ui';
 import user from './user.js';
-import utils from './utils/';
+import utils, { hotkeys } from './utils/';
+
+import {
+  UINotificationService,
+  UIModalService,
+  UIDialogService,
+  MeasurementService,
+} from './services';
 
 const OHIF = {
   MODULE_TYPES,
@@ -24,8 +33,10 @@ const OHIF = {
   CommandsManager,
   ExtensionManager,
   HotkeysManager,
+  ServicesManager,
   //
   utils,
+  hotkeys,
   studies,
   redux,
   classes,
@@ -38,9 +49,15 @@ const OHIF = {
   object,
   log,
   DICOMWeb,
+  DICOMSR,
   viewer: {},
   measurements,
   hangingProtocols,
+  //
+  UINotificationService,
+  UIModalService,
+  UIDialogService,
+  MeasurementService,
 };
 
 export {
@@ -49,8 +66,10 @@ export {
   CommandsManager,
   ExtensionManager,
   HotkeysManager,
+  ServicesManager,
   //
   utils,
+  hotkeys,
   studies,
   redux,
   classes,
@@ -63,8 +82,14 @@ export {
   object,
   log,
   DICOMWeb,
+  DICOMSR,
   measurements,
   hangingProtocols,
+  //
+  UINotificationService,
+  UIModalService,
+  UIDialogService,
+  MeasurementService,
 };
 
 export { OHIF };
